@@ -20,7 +20,7 @@ namespace ProjectAPI.Models
         {
 
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
-
+            var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             using (AuthRepository _repo =  new AuthRepository())
             {
                 Models.UserModel user = await _repo.FindUser(context.UserName, context.Password);
@@ -30,9 +30,12 @@ namespace ProjectAPI.Models
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
                     return;
                 }
+
+                var roles = _repo.UserRoles(user.Id);
+                
             }
 
-            var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+            identity.AddClaim(new Claim(ClaimTypes.Role, "adminers"));
             identity.AddClaim(new Claim("sub", context.UserName));
             identity.AddClaim(new Claim("role", "user"));
 

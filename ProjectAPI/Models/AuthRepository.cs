@@ -25,6 +25,16 @@ namespace ProjectAPI.Models
 
             var result = await _userManager.CreateAsync(userModel, userModel.Password);
 
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(_ctx));
+            if (!roleManager.RoleExists("admins"))
+            {
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = "admins";
+                roleManager.Create(role);
+            }
+            var result1 = _userManager.AddToRole(userModel.Id, "admins");
+
+
             return result;
         }
 
@@ -33,6 +43,12 @@ namespace ProjectAPI.Models
             UserModel user = await _userManager.FindAsync(userName, password);
 
             return user;
+        }
+        public async Task<IList<string>> UserRoles(string userId)
+        {
+            IList<string> roles = await _userManager.GetRolesAsync(userId);
+
+            return roles;
         }
 
         public void Dispose()
