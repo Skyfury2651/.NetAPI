@@ -15,7 +15,7 @@ namespace ProjectAPI.Controllers
     {
         AuthContext authContext = new AuthContext();
 
-        [Authorize]
+        [Authorize(Roles ="User")]
         [Route("")]
         public IHttpActionResult Get()
         {

@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security.OAuth;
 using System;
 using System.Collections.Generic;
@@ -21,26 +23,35 @@ namespace ProjectAPI.Models
 
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
-            using (AuthRepository _repo =  new AuthRepository())
+            using (var db = new AuthContext())
             {
-                Models.UserModel user = await _repo.FindUser(context.UserName, context.Password);
-
-                if (user == null)
+                if (db != null)
                 {
-                    context.SetError("invalid_grant", "The user name or password is incorrect.");
-                    return;
+                    var user = db.Users.Where(o => o.UserName == context.UserName && o.Password == context.Password).FirstOrDefault();
+                    var userManager = new UserManager<UserModel>(new UserStore<UserModel>(db));
+                    var roles = userManager.GetRoles(user.Id);
+                    if (user != null)
+                    {
+                        foreach (var role in roles)
+                        {
+                            identity.AddClaim(new Claim(ClaimTypes.Role, role));
+                        }
+
+                        identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
+                        identity.AddClaim(new Claim("LoggedOn", DateTime.Now.ToString()));
+                        await Task.Run(() => context.Validated(identity));
+                    }
+                    else
+                    {
+                        context.SetError("Wrong Crendtials", "Provided username and password is incorrect");
+                    }
                 }
-
-                var roles = _repo.UserRoles(user.Id);
-                
+                else
+                {
+                    context.SetError("Wrong Crendtials", "Provided username and password is incorrect");
+                }
+                return;
             }
-
-            identity.AddClaim(new Claim(ClaimTypes.Role, "adminers"));
-            identity.AddClaim(new Claim("sub", context.UserName));
-            identity.AddClaim(new Claim("role", "user"));
-
-            context.Validated(identity);
-
         }
     }
 }
