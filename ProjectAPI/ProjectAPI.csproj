@@ -193,7 +193,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -209,10 +211,25 @@
     <Compile Include="Migrations\202103140336011_CreateOrdersTable.Designer.cs">
       <DependentUpon>202103140336011_CreateOrdersTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202103141044254_Eloquent-Test.cs" />
+    <Compile Include="Migrations\202103141044254_Eloquent-Test.Designer.cs">
+      <DependentUpon>202103141044254_Eloquent-Test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103141049587_Add-ForeignKey.cs" />
+    <Compile Include="Migrations\202103141049587_Add-ForeignKey.Designer.cs">
+      <DependentUpon>202103141049587_Add-ForeignKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103141105396_Change-Text.cs" />
+    <Compile Include="Migrations\202103141105396_Change-Text.Designer.cs">
+      <DependentUpon>202103141105396_Change-Text.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AuthContext.cs" />
     <Compile Include="Models\AuthRepository.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderDetail.cs" />
+    <Compile Include="Models\Product.cs" />
     <Compile Include="Models\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -256,6 +273,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202103140336011_CreateOrdersTable.resx">
       <DependentUpon>202103140336011_CreateOrdersTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103141044254_Eloquent-Test.resx">
+      <DependentUpon>202103141044254_Eloquent-Test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103141049587_Add-ForeignKey.resx">
+      <DependentUpon>202103141049587_Add-ForeignKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103141105396_Change-Text.resx">
+      <DependentUpon>202103141105396_Change-Text.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

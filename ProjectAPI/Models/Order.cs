@@ -11,6 +11,7 @@ namespace ProjectAPI.Models
         public string CustomerName { get; set; }
         public string ShipperCity { get; set; }
         public Boolean IsShipped { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
 
         public static List<Order> CreateOrders()
         {
