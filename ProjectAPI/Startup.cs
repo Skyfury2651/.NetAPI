@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Owin;
+using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using ProjectAPI.Models;
@@ -32,7 +33,7 @@ namespace ProjectAPI
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 Provider = new SimpleAuthorizationServerProvider()
             };
-
+            app.UseCors(CorsOptions.AllowAll);
             // Token Generation
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
